@@ -55,12 +55,6 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 	}
 
-	// @RequestMapping("/")
-	// String index(Map<String, Object> model) {
-	// model.put("quote", "Im an fighter.");
-	// model.put("author", "Sakthivel.");
-	// return "index";
-	// }
 
 	@RequestMapping("/")
 	String quote(Map<String, Object> model) {
@@ -85,7 +79,7 @@ public class Main {
 		}
 	}
 
-	@RequestMapping("/db")
+//	@RequestMapping("/db")
 	String db(Map<String, Object> model) {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
@@ -124,7 +118,7 @@ public class Main {
 		}
 	}
 
-	@RequestMapping("/hello")
+//	@RequestMapping("/hello")
 	String hello(Map<String, Object> model) {
 		RelativisticModel.select();
 		String energy = System.getenv().get("ENERGY");
