@@ -54,26 +54,29 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 	}
 
-//	@RequestMapping("/")
-//	String index(Map<String, Object> model) {
-//		model.put("quote", "Im an fighter.");
-//		model.put("author", "Sakthivel.");
-//		return "index";
-//	}
+	// @RequestMapping("/")
+	// String index(Map<String, Object> model) {
+	// model.put("quote", "Im an fighter.");
+	// model.put("author", "Sakthivel.");
+	// return "index";
+	// }
 
 	@RequestMapping("/")
 	String quote(Map<String, Object> model) {
-		System.out.println(" indexxxxxxxxxxxx " );
+		System.out.println(" indexxxxxxxxxxxx ");
 		try (Connection connection = dataSource.getConnection()) {
 
 			Integer id = (int) Math.random() % 1416;
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT quote, author FROM quotes where quoteid = " + id);
 
-			String quote = "\"" + rs.getString("quote") + "\"";
-			String author = "- " + rs.getString("author");
-			model.put("quote", quote);
-			model.put("author", author);
+			while (rs.next()) {
+				String quote = "\"" + rs.getString("quote") + "\"";
+				String author = "- " + rs.getString("author");
+
+				model.put("quote", quote);
+				model.put("author", author);
+			}
 			return "index";
 		} catch (Exception e) {
 			model.put("message", e.getMessage());
