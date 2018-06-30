@@ -55,22 +55,25 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 	}
 
-
 	@RequestMapping("/")
 	String quote(Map<String, Object> model) {
 		System.out.println(" indexxxxxxxxxxxx ");
 		try (Connection connection = dataSource.getConnection()) {
 
-			Integer id = new Random().nextInt(1416);
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT quote, author FROM quotes where quoteid = " + id);
+
+			ResultSet rs = stmt.executeQuery("SELECT max(quoteid) FROM quotes");
+
+			int rand = 10000;
+			while (rs.next()) {
+				rand = rs.getInt(1);
+			}
+			Integer id = new Random().nextInt(rand);
+			rs = stmt.executeQuery("SELECT quote, author FROM quotes where quoteid = " + id);
 
 			while (rs.next()) {
-				String quote = "\"" + rs.getString("quote") + "\"";
-				String author = "- " + rs.getString("author");
-
-				model.put("quote", quote);
-				model.put("author", author);
+				model.put("quote", "\"" + rs.getString("quote") + "\"");
+				model.put("author", "-" + rs.getString("author") + ". (#" + rs.getString("genre") + ")");
 			}
 			return "index";
 		} catch (Exception e) {
@@ -79,7 +82,7 @@ public class Main {
 		}
 	}
 
-//	@RequestMapping("/db")
+	// @RequestMapping("/db")
 	String db(Map<String, Object> model) {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
@@ -118,7 +121,7 @@ public class Main {
 		}
 	}
 
-//	@RequestMapping("/hello")
+	// @RequestMapping("/hello")
 	String hello(Map<String, Object> model) {
 		RelativisticModel.select();
 		String energy = System.getenv().get("ENERGY");
