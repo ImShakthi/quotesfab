@@ -69,7 +69,7 @@ public class Main {
 				rand = rs.getInt(1);
 			}
 			Integer id = new Random().nextInt(rand);
-			rs = stmt.executeQuery("SELECT quote, author FROM quotes where quoteid = " + id);
+			rs = stmt.executeQuery("SELECT quote, author, genre FROM quotes where quoteid = " + id);
 
 			while (rs.next()) {
 				model.put("quote", "\"" + rs.getString("quote") + "\"");
