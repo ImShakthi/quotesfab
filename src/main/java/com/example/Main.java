@@ -68,7 +68,7 @@ public class Main {
 
 			Integer id = (int) Math.random() % 1416;
 			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT quote, author FROM quotes where quoteid = " + id);
+			ResultSet rs = stmt.executeQuery("SELECT quote, author FROM quotes where quoteid = " + 10);
 
 			while (rs.next()) {
 				String quote = "\"" + rs.getString("quote") + "\"";
@@ -89,19 +89,19 @@ public class Main {
 		try (Connection connection = dataSource.getConnection()) {
 			Statement stmt = connection.createStatement();
 
-			StringBuilder query = new StringBuilder();
-			query.append("CREATE TABLE IF NOT EXISTS quotes");
-			query.append("(quoteid serial primary key,");
-			query.append("quote varchar not null,");
-			query.append("author varchar default 'Unknown')");
-			stmt.executeUpdate(query.toString());
+//			StringBuilder query = new StringBuilder();
+//			query.append("CREATE TABLE IF NOT EXISTS quotes");
+//			query.append("(quoteid serial primary key,");
+//			query.append("quote varchar not null,");
+//			query.append("author varchar default 'Unknown')");
+//			stmt.executeUpdate(query.toString());
 
-			stmt.executeUpdate("INSERT INTO quotes VALUES ('I'm awesome.')");
-			ResultSet rs = stmt.executeQuery("SELECT quote FROM quotes");
+//			stmt.executeUpdate("INSERT INTO quotes VALUES ('I'm awesome.')");
+			ResultSet rs = stmt.executeQuery("SELECT quote , author FROM quotes fetch first 10 rows only");
 
 			ArrayList<String> output = new ArrayList<String>();
 			while (rs.next()) {
-				output.add("Read from DB: " + rs.getTimestamp("quote"));
+				output.add("Read from DB: \"" + rs.getString("quote") + "\" - " +rs.getString("author"));
 			}
 
 			model.put("records", output);
