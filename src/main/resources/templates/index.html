@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -35,19 +35,15 @@
 		<div class="container my-auto">
 			<div class="row">
 				<div class="col-lg-22 mx-auto">
-					<h3>
-						<strong>
-							<div id="quotes">A diplomat is a man who always remembers a
-								woman's birthday but never remembers her age.</div>
+					<h2>
+						<strong id ="quotes" th:text="${quote}">
 						</strong>
-					</h3>
+					</h2>
 					<hr>
 				</div>
 				<div class="col-lg-8 mx-auto">
-					<p class="text-faded mb-5">
-					<div id="quotesAuthor">-Unknown</div>
-					</p>
-					<a class="btn btn-primary btn-xl js-scroll-trigger" href="">Suprise
+					<p class="text-faded mb-5" id="quotesAuthor" th:text="${author}" />
+					<a class="btn btn-primary btn-xl js-scroll-trigger" href="/new">Suprise
 						ME :)</a>
 				</div>
 			</div>

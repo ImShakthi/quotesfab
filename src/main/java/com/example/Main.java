@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -54,7 +55,22 @@ public class Main {
 	}
 
 	@RequestMapping("/")
-	String index() {
+	String index(Map<String, Object> model) {
+		System.out.println(" indexxxxxxxxxxxx " );
+		try (Connection connection = dataSource.getConnection()) {
+
+			Integer id = (int) Math.random() % 1416;
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT quote, author FROM quotes where quoteid = " + id);
+
+			String quote = "\"" + rs.getString("quote") + "\"";
+			String author = "- " + rs.getString("author");
+			model.put("quote", quote);
+			model.put("author", author);
+		} catch (Exception e) {
+			model.put("message", e.getMessage());
+			return "error";
+		}
 		return "index";
 	}
 
