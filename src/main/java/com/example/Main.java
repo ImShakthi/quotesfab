@@ -56,6 +56,13 @@ public class Main {
 
 	@RequestMapping("/")
 	String index(Map<String, Object> model) {
+		model.put("quote", "Im an fighter.");
+		model.put("author", "Sakthivel.");
+		return "index";
+	}
+
+	@RequestMapping("/quote")
+	String quote(Map<String, Object> model) {
 		System.out.println(" indexxxxxxxxxxxx " );
 		try (Connection connection = dataSource.getConnection()) {
 
