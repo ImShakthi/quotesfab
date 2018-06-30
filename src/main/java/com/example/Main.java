@@ -54,14 +54,14 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 	}
 
-	@RequestMapping("/")
-	String index(Map<String, Object> model) {
-		model.put("quote", "Im an fighter.");
-		model.put("author", "Sakthivel.");
-		return "index";
-	}
+//	@RequestMapping("/")
+//	String index(Map<String, Object> model) {
+//		model.put("quote", "Im an fighter.");
+//		model.put("author", "Sakthivel.");
+//		return "index";
+//	}
 
-	@RequestMapping("/quote")
+	@RequestMapping("/")
 	String quote(Map<String, Object> model) {
 		System.out.println(" indexxxxxxxxxxxx " );
 		try (Connection connection = dataSource.getConnection()) {
@@ -74,11 +74,11 @@ public class Main {
 			String author = "- " + rs.getString("author");
 			model.put("quote", quote);
 			model.put("author", author);
+			return "index";
 		} catch (Exception e) {
 			model.put("message", e.getMessage());
 			return "error";
 		}
-		return "index";
 	}
 
 	@RequestMapping("/db")
