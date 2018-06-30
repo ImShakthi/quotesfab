@@ -64,7 +64,7 @@ public class Main {
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
 			stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-			ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+			ResultSet rs = stmt.executeQuery("SELECT quote FROM quotes");
 
 			ArrayList<String> output = new ArrayList<String>();
 			while (rs.next()) {
@@ -92,9 +92,13 @@ public class Main {
 
 	@RequestMapping("/hello")
 	String hello(Map<String, Object> model) {
-		RelativisticModel.select();
-		Amount<Mass> m = Amount.valueOf("12 GeV").to(KILOGRAM);
-		model.put("science", "E=mc^2: 12 GeV = " + m.toString());
-		return "hello";
+	    RelativisticModel.select();
+	    String energy = System.getenv().get("ENERGY");
+	    if (energy == null) {
+	       energy = "12 GeV";
+	    }
+	    Amount<Mass> m = Amount.valueOf(energy).to(KILOGRAM);
+	    model.put("science", "E=mc^2: " + energy + " = "  + m.toString());
+	    return "hello";
 	}
 }
